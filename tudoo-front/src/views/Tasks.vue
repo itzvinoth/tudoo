@@ -22,9 +22,9 @@ export default {
 	data () {
 		return {
 			contents: [
-				{ value: 'paragraph 1' },
-				{ value: 'paragraph 2' },
-				{ value: 'paragraph 3' },
+				{ value: 'Next adding drag and drop' },
+				{ value: 'Alignment needs to be fixed' },
+				{ value: 'CSS has to be updated' },
 				{ value: '' },
 			]
 		}
