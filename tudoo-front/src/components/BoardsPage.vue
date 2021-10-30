@@ -27,7 +27,7 @@
 
 <script>
 export default {
-	name: "BoardsPage",
+	name: 'BoardsPage',
 	props: {
 		msg: String
 	},
