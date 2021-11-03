@@ -1,18 +1,22 @@
 <template>
 	<div class="tasks">
 		<h1>This is an tasks page</h1>
-		<p
-			v-for="(value, index) in contents"
-			:id="`content-${index}`"
-			class="content"
-			:key="index"
-			contenteditable
-			spellcheck="false"
-			@input="event => onInput(event, index)"
-			@keyup.delete="onRemove(index)"
-			@keydown.enter="onEnter"
-			@keydown.enter.prevent
-		/>
+		<ul>
+			<li v-for="(value, index) in contents" :key="index">
+				<div class="wrapper">
+					<p
+						:id="`content-${index}`"
+						class="content"
+						contenteditable
+						spellcheck="false"
+						@input="event => onInput(event, index)"
+						@keyup.delete="onRemove(index)"
+						@keydown.enter="onEnter"
+						@keydown.enter.prevent
+					/>
+				</div>
+			</li>
+		</ul>
 	</div>
 </template>
 
@@ -38,12 +42,14 @@ export default {
 			this.contents[index].value = value
 		},
 		onEnter (event) {
-			// console.log('event: ',)
 			// console.log('index: ', event.target.innerText)
 			if (event.target.innerText) {
 				this.contents.push({value: ''})
 				this.$nextTick(() => {
-					event.target.nextElementSibling.focus()
+					let totalContents = this.contents.length - 1
+					let el = document.querySelector('#content-'+(totalContents))
+					el.focus()
+					// event.target.nextElementSibling.focus()
 				})
 			} else {
 				return			
