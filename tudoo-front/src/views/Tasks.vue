@@ -2,9 +2,10 @@
 	<div class="tasks">
 		<h1>This is an tasks page</h1>
 		<ul>
-			<li v-for="(value, index) in contents" :key="index">
+			<li v-for="(value, index) in contents" :key="index" class="">
 				<div class="wrapper">
-					<p
+					<!-- <span class="draggable-handle">hai</span> -->
+					<div
 						:id="`content-${index}`"
 						class="content"
 						contenteditable
@@ -17,14 +18,36 @@
 				</div>
 			</li>
 		</ul>
+		<draggable
+			:list="contents"
+			:disabled="!enabled"
+			item-key="value"
+			class="list-group"
+			ghost-class="ghost"
+			:move="checkMove"
+			@start="dragging = true"
+			@end="dragging = false"
+		>
+			<template #item="{ element }">
+				<div class="list-group-item" :class="{ 'not-draggable': !enabled }">
+					{{ element.value }}
+				</div>
+			</template>
+		</draggable>
 	</div>
 </template>
 
 <script>
+import draggable from "vuedraggable"
+
 export default {
 	name: "Tasks",
+	components: {
+		draggable
+	},
 	data () {
 		return {
+			enabled: true,
 			contents: [
 				{ value: 'Next adding drag and drop' },
 				{ value: 'Alignment needs to be fixed' },
@@ -32,6 +55,15 @@ export default {
 				{ value: '' },
 			]
 		}
+	},
+	created () {
+		const plugin = document.createElement('script')
+		plugin.setAttribute(
+			'src',
+			'../assets/js/dnd.js'
+		)
+		plugin.async = true
+		document.head.appendChild(plugin)
 	},
 	mounted () {
 		this.updateContents()
@@ -71,3 +103,16 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.buttons {
+  margin-top: 35px;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.not-draggable {
+  cursor: no-drop;
+}
+</style>
